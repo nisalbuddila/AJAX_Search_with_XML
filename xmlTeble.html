@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	<script type="text/javascript">
+		function loadDoc(str){
+			//var s= document.getElementById("search");
+			//var num1 = document.getElementById("number")
+			//<button  name="" onclick="loadDoc()" >Click Here to load</button>
+			var num;
+			var i;
+			var comObj = new XMLHttpRequest(); // Communicator to deal with the server
+			comObj.onreadystatechange = function(){
+				if(this.readyState == 4 && this.status == 200){
+					var Xdoc = this.responseXML; //response is XML data structure
+					var T = Xdoc.getElementsByTagName("TITLE");
+					var art = Xdoc.getElementsByTagName("ARTIST");
+					var price = Xdoc.getElementsByTagName("PRICE");
+					var n = T.length;
+					var list = "<table border = 2> <tr><th>TITLE</th><th>Artist</th><th>PRICE</th></tr>";
+					for(i=0; i<n ;i++){
+						if(T[i].childNodes[0].nodeValue.includes(str) || price[i].childNodes[0].nodeValue.includes(str) || art[i].childNodes[0].nodeValue.includes(str) ){
+						//document.getElementById("show").innerHTML = n;
+						list = list + "<tr><td>" + T[i].childNodes[0].nodeValue + "</td><td>" + art[i].childNodes[0].nodeValue +"</td><td>"+price[i].childNodes[0].nodeValue + "</td></tr>";
+					}
+				}
+					list = list + "</table>"
+					document.getElementById("show").innerHTML = list;
+			}
+			};
+			comObj.open("GET","CD_catelog.xml",true);
+			comObj.send();
+		}
+
+
+	</script>
+	
+</head>
+<body>
+
+	<h2>This is the start!</h2>
+	<input type="text" name="" id="price" onkeyup="loadDoc(this.value)"/>
+	
+	<div id="show" > Let's see how the text change</div>
+	
+	<h2>This is the End</h2>
+	
+
+</body>
+</html>
